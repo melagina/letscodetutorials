@@ -36,6 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService)
                 .passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
+
 //   версия с аут через бд
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -46,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .authoritiesByUsernameQuery("select u.username, ur.roles from usr u inner join user_role ur on u.id = ur.user_id where u.username=?");
 //    }
 
-
+//версия с записанным пользаком
 //    @Bean
 //    @Override
 //    public UserDetailsService userDetailsService() {
