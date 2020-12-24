@@ -33,6 +33,7 @@ public class UserController {
         return "userEdit";
     }
 
+
     @PostMapping
     public String userSave(
             @RequestParam String username,
@@ -44,13 +45,15 @@ public class UserController {
         Set<String> roles = Arrays.stream(Role.values())
                 .map(Role::name)
                 .collect(Collectors.toSet());
-        //TODO не оч понятно, зачем чиститьсписок, тк роли пользака= это сет
+        //список очищается, для того, чтобы роли полностью соответствовали тому, что в веб-морде
+        //если роль будет удалена, то не важно, что храним мы все в сете
         user.getRoles().clear();
         for (String key : form.keySet()) {
             if (roles.contains(key)) {
                 user.getRoles().add(Role.valueOf(key));
             }
         }
+
         userRepo.save(user);
         return "redirect:/user";
     }
