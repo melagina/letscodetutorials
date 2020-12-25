@@ -20,10 +20,6 @@ public class MailConfig {
 
     @Bean
     public JavaMailSender getMailSender() {
-        System.out.println("          prepare to send: ");
-        System.out.println("username = "+ username);
-        System.out.println("password = "+ password);
-
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
         mailSender.setHost(host);
