@@ -1,3 +1,4 @@
 /target
 /.idea
+/main/resources/application-dev.properties
 *.iml
