@@ -24,10 +24,10 @@ create table usr (
     primary key (id)
 );
 
-alter table message
+alter table if exists message
     add constraint message_user_fk
-    foreign key (user_id) references usr (id);
+    foreign key (user_id) references usr;
 
-alter table user_role
+alter table if exists user_role
     add constraint user_role_user_fk
-    foreign key (user_id) references usr (id);
+    foreign key (user_id) references usr;
