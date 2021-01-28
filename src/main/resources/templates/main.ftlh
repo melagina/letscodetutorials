@@ -1,63 +1,68 @@
-<#import "parts/common.ftlh" as c>
-
-<@c.page>
-<div class="form-row">
-    <div class="form-group col-md-6">
-        <form method="get" action="/main" class="form-inline">
-            <input type="text" name="filter" value="${filter?ifExists}" placeholder="Search by tag">
-            <button type="submit" class="btn btn-primary ml-2"> Search</button>
-        </form>
-    </div>
-</div>
-
-<a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-    Add new message
-</a>
-<div class="collapse" id="collapseExample">
-    <div class="form-group">
-
-        <form method="post" enctype="multipart/form-data">
-            <div>
-                <input type="text" name="text" placeholder="Введите сообщение"/>
+<#macro login path isRegisterForm>
+<form action="${path}" method="post">
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">User Name :</label>
+        <div class="col-sm-6">
+            <input type="text" name="username" value="<#if user??>${user.username}</#if>"
+                   class="form-control ${(usernameError??)?string('is-invalid', '')}"
+                   placeholder="User name" />
+            <#if usernameError??>
+            <div class="invalid-feedback">
+                ${usernameError}
             </div>
-            <div>
-                <input type="text" name="tag" placeholder="Тэг"/>
-            </div>
-            <div>
-                <div class="custom-file">
-                    <input type="file" name="file" id="customFile"/>
-                    <label class="custom-file-label" for="customFile"> Choose file</label>
-                </div>
-            </div>
-            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-            <div>
-                <button type="submit" class="btn btn-primary ml-2"> Добавить</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-
-<div class="card-colums">
-<#list messages as message>
-    <div class="card my-3" style="width: 18rem;">
-        <#if message.filename??>
-        <img src="/img/${message.filename}" class="card-img-top">
         </#if>
     </div>
-    <div class="m-2">
-        <span> ${message.text} </span>
-        <i> ${message.tag} </i>
     </div>
-
-    <div class="card-footer text-muted">
-        ${message.authorName}
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Password:</label>
+        <div class="col-sm-6">
+            <input type="password" name="password"
+                   class="form-control ${(passwordError??)?string('is-invalid', '')}"
+                   placeholder="Password" />
+            <#if passwordError??>
+            <div class="invalid-feedback">
+                ${passwordError}
+            </div>
+        </#if>
     </div>
+    </div>
+    <#if isRegisterForm>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Password:</label>
+        <div class="col-sm-6">
+            <input type="password" name="password2"
+                   class="form-control ${(password2Error??)?string('is-invalid', '')}"
+                   placeholder="Retype password" />
+            <#if password2Error??>
+            <div class="invalid-feedback">
+                ${password2Error}
+            </div>
+        </#if>
+    </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Email:</label>
+        <div class="col-sm-6">
+            <input type="email" name="email" value="<#if user??>${user.email}</#if>"
+                   class="form-control ${(emailError??)?string('is-invalid', '')}"
+                   placeholder="some@some.com" />
+            <#if emailError??>
+            <div class="invalid-feedback">
+                ${emailError}
+            </div>
+        </#if>
+    </div>
+    </div>
+</#if>
+<input type="hidden" name="_csrf" value="${_csrf.token}" />
+<#if !isRegisterForm><a href="/registration">Add new user</a></#if>
+<button class="btn btn-primary" type="submit"><#if isRegisterForm>Create<#else>Sign In</#if></button>
+</form>
+</#macro>
 
-
-    <#else>
-    No messages
-</#list>
-</div>
-
-</@c.page>
+<#macro logout>
+<form action="/logout" method="post">
+    <input type="hidden" name="_csrf" value="${_csrf.token}" />
+    <button class="btn btn-primary" type="submit">Sign Out</button>
+</form>
+</#macro>
